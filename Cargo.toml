@@ -6,7 +6,7 @@ edition = "2021"
 license = "CC0-1.0"
 repository = "https://github.com/Novora/SQUID-rs"
 authors = ["James Clarke"]
-keywords = ["uuid","algorithm", "id", "id-system","identification-system"]
+keywords = ["uuid","algorithm", "id", "id-system"]
 categories = ["algorithms", "data-structures"]
 
 
