@@ -27,11 +27,11 @@ impl SQUIDv0 {
     ///
     /// let squid = SQUIDv0::new(None);
     /// ```
-     #[must_use]
+    #[must_use]
     pub fn new(device_uuid: Option<&str>) -> Self {
         let uuid = device_uuid.map_or_else(
             || machine_uuid::get().unwrap_or_else(|_| "00000000-0000-0000-0000-000000000000".to_string()),
-            |s| s.to_string(),
+            std::string::ToString::to_string,
         );
         Self {
             device_uuid: uuid,
