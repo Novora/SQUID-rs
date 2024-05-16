@@ -31,7 +31,10 @@ impl SQUIDv0 {
     pub fn new(device_uuid: Option<&str>) -> Self {
         let uuid = device_uuid
             .map(|s| s.to_string())
-            .unwrap_or_else(|| machine_uuid::get().expect("Unexpected error with Machine ID"));
+            .unwrap_or_else(|| {
+                let machine_id = machine_uuid::get().unwrap_or_else(|_| "00000000-0000-0000-0000-000000000000".to_string());
+                machine_id
+            });
         Self {
             device_uuid: uuid,
             counter: 0,
