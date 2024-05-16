@@ -32,7 +32,7 @@ impl SQUIDv0 {
         let uuid = device_uuid
             .map(|s| s.to_string())
             .unwrap_or_else(|| {
-                let machine_id = machine_uuid::get().unwrap_or_else(|_| "00000000-0000-0000-0000-000000000000".to_string());
+                let machine_id = machine_uuid::get();
                 machine_id
             });
         Self {
