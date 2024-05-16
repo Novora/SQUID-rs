@@ -29,10 +29,9 @@ impl SQUIDv0 {
     /// ```
     #[must_use]
     pub fn new(device_uuid: Option<&str>) -> Self {
-        let uuid = device_uuid.map_or_else(
-            || machine_uuid::get().unwrap_or_else(|_| "00000000-0000-0000-0000-000000000000".to_string()),
-            std::string::ToString::to_string,
-        );
+        let uuid = device_uuid
+            .map(|s| s.to_string())
+            .unwrap_or_else(|| machine_uuid::get().unwrap_or_else(|_| "00000000-0000-0000-0000-000000000000".to_string()));
         Self {
             device_uuid: uuid,
             counter: 0,
