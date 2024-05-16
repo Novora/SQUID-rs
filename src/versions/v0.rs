@@ -2,7 +2,7 @@ use std::time::{SystemTime, UNIX_EPOCH};
 
 /// Struct representing the version 0 implementation of the SQUID ID generation system.
 /// 
-/// The SQUIDv0 struct generates unique, sortable IDs using a combination of the device UUID,
+/// The `SQUIDv0` struct generates unique, sortable IDs using a combination of the device UUID,
 /// the current timestamp, and an internal counter to handle rapid successive calls.
 ///
 /// # Warning
@@ -11,11 +11,11 @@ use std::time::{SystemTime, UNIX_EPOCH};
 pub struct SQUIDv0 {
     device_uuid: String,
     counter: usize,
-    last_timestamp: u64,
+    last_timestamp: u128,
 }
 
 impl SQUIDv0 {
-    /// Creates a new SQUIDv0 instance.
+    /// Creates a new `SQUIDv0` instance.
     ///
     /// The device UUID is retrieved using the `machine_uuid` library. If the retrieval fails,
     /// a default UUID of "00000000-0000-0000-0000-000000000000" is used.
@@ -27,9 +27,10 @@ impl SQUIDv0 {
     ///
     /// let squid = SQUIDv0::new(None);
     /// ```
-    pub fn new(device_uuid: Option<String>) -> SQUIDv0 {
+    #[must_use]
+    pub fn new(device_uuid: Option<String>) -> Self {
         let uuid = device_uuid.unwrap_or_else(|| machine_uuid::get().unwrap_or_else(|_| "00000000-0000-0000-0000-000000000000".to_string()));
-        SQUIDv0 {
+        Self {
             device_uuid: uuid,
             counter: 0,
             last_timestamp: 0,
@@ -48,6 +49,10 @@ impl SQUIDv0 {
     /// 3. If the timestamp is different, the counter is reset to 0.
     /// 4. The ID is formatted as "DeviceUUID-Timestamp-Counter".
     ///
+    /// # Panics
+    /// The generate function could panic if there was a unsigned integer overflow of the timestamp,
+    /// which is highly unlikely to happen for a very long time(several billon years or more).
+    ///
     /// # Examples
     ///
     /// ```
@@ -61,7 +66,7 @@ impl SQUIDv0 {
         let timestamp = SystemTime::now()
             .duration_since(UNIX_EPOCH)
             .expect("Time went backwards")
-            .as_millis() as u64;
+            .as_millis();
 
         if timestamp == self.last_timestamp {
             self.counter += 1;

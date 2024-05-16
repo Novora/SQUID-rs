@@ -7,6 +7,6 @@ pub trait SQUID {
 
 impl SQUID for SQUIDv0 {
     fn generate(&mut self) -> String {
-        SQUIDv0::generate(self)
+        Self::generate(self)
     }
 }

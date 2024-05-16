@@ -1,7 +1,26 @@
 [package]
 name = "sortable-quick-unique-id"
+description = "The Sort-able Quick Unique ID system"
 version = "0.1.0"
 edition = "2021"
+license = "CC0-1.0"
+repository = "https://github.com/Novora/SQUID-rs"
+keywords = ["uuid","algorithm", "id", "id-system","identification-system"]
+categories = ["algorithms", "data-structures"]
+
 
 [dependencies]
 machine_uuid = { git = "https://github.com/choicesourcing/machine_uuid", rev = "01b6603" }
+
+[lints.rust]
+unsafe_code = "forbid"
+
+[lints.clippy]
+pedantic = "warn"
+nursery = "warn"
+perf = "warn"
+style = "warn"
+complexity = "warn"
+suspicious = "warn"
+correctness = "warn"
+cargo = "warn"
